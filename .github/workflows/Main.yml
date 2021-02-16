@@ -56,6 +56,5 @@ jobs:
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          working-directory: ./Asset
           branch: gh-pages # The branch the action should deploy to.
-          folder: Scene # The folder the action should deploy.
+          folder: /Assets/Scene # The folder the action should deploy.

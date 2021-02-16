@@ -42,17 +42,19 @@ jobs:
       #   with:
       #     name: Test results (all modes)
       #     path: ${{ steps.testRunner.outputs.artifactsPath }}
-      - uses: webbertakken/unity-builder@v0.10
-        with:
-          unityVersion: ${{ matrix.unityVersion }}
-          targetPlatform: ${{ matrix.targetPlatform }}
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
+      # - uses: webbertakken/unity-builder@v0.10
+      #   with:
+      #     unityVersion: ${{ matrix.unityVersion }}
+      #     targetPlatform: ${{ matrix.targetPlatform }}
+      # - uses: actions/upload-artifact@v1
+      #   with:
+      #     name: Build
+      #     path: build
+      - name: Change directory to build
+        run: ls -R
+        working-directory: ./Assets
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          working-directory: ./build
           branch: gh-pages # The branch the action should deploy to.
-          folder: WebGL # The folder the action should deploy.
+          folder: Scene # The folder the action should deploy.

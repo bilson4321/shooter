@@ -48,10 +48,10 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-      # - uses: actions/upload-artifact@v1
-      #   with:
-      #     name: Build
-      #     path: build
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
       - name: Change directory to build
         run: ls -R
       - name: Current

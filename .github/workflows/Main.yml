@@ -46,7 +46,6 @@ jobs:
         with:
           unityVersion: ${{ matrix.unityVersion }}
           targetPlatform: ${{ matrix.targetPlatform }}
-          buildsPath: .
       # - uses: actions/upload-artifact@v1
       #   with:
       #     name: Build
@@ -59,4 +58,4 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: WebGL/WebGL # The folder the action should deploy.
+          folder: build/WebGL/WebGL # The folder the action should deploy.

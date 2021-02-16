@@ -1,7 +1,9 @@
 name: Actions 😎
 
 on:
-  push: { branches: [master] }
+  pull_request:
+    branches:
+      - staging
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}

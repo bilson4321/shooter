@@ -51,8 +51,7 @@ jobs:
       #     name: Build
       #     path: build
       - name: Change directory to build
-        run: cd
-        working-directory: ./Assets
+        run: ls -R
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:

@@ -52,8 +52,10 @@ jobs:
       #     path: build
       - name: Change directory to build
         run: ls -R
+      - name: Current directory
+        run: pwd
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: Assets/Scene # The folder the action should deploy.
+          folder: Assets/Scenes # The folder the action should deploy.

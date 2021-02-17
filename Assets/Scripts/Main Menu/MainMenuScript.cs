@@ -18,7 +18,6 @@ public class MainMenuScript : MonoBehaviour
 
     public void onPlayButtonClick()
     {
-        Debug.Log("Play Button pressed");
         SceneManager.LoadScene(1);
     }
 }

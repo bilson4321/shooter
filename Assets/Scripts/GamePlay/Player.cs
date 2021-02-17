@@ -18,6 +18,19 @@ public class Player : MonoBehaviour
 
     public float bulletForce = 20f;
 
+    private AudioSource source;
+
+    public Animator bodyanimator;
+    public Animator feetanimator;
+
+    bool canShoot = true;
+
+
+    private void Start()
+    {
+        source = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal");
@@ -26,8 +39,13 @@ public class Player : MonoBehaviour
         /// To convert to world point,, mouse have screen pixel 
         mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetButtonDown("Fire1"))
+        bodyanimator.SetFloat("speed", movement.sqrMagnitude);
+        feetanimator.SetFloat("speed", movement.sqrMagnitude);
+        Debug.Log("Speed"+ movement.sqrMagnitude);
+
+        if (Input.GetButtonDown("Fire1")&& canShoot)
         {
+            canShoot = false;
             Shoot();
         }
     }
@@ -36,7 +54,7 @@ public class Player : MonoBehaviour
     {
         rigidBody.MovePosition(rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
 
-        Vector2 lookDir = mousePosition - new Vector2(firePoint.position.x, firePoint.position.y);
+        Vector2 lookDir = mousePosition - rigidBody.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
 
         rigidBody.rotation = angle;
@@ -46,5 +64,14 @@ public class Player : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody2D bulletRigidBody = bullet.GetComponent<Rigidbody2D>();
         bulletRigidBody.AddForce(firePoint.right * bulletForce, ForceMode2D.Impulse);
+        source.Play();
+        bodyanimator.SetBool("isShooting",true);
+        Invoke("stopShooting",0.5f);
+    }
+
+    void stopShooting()
+    {
+        canShoot = true;
+        bodyanimator.SetBool("isShooting",false);
     }
 }

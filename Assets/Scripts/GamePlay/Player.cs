@@ -4,36 +4,47 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public float movementSpeed = 8f;
 
-    Vector3 mouse_pos;
-    public Transform target; //Assign to the object you want to rotate
-    Vector3 object_pos;
-    float angle;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Rigidbody2D rigidBody;
 
-    // Update is called once per frame
+    Vector2 movement;
+    Vector2 mousePosition;
+
+    public Camera cam;
+
+    public Transform firePoint;
+    public GameObject bulletPrefab;
+
+    public float bulletForce = 20f;
+
     void Update()
     {
-        mouse_pos = Input.mousePosition;
-        mouse_pos.z = 5.23f; //The distance between the camera and object
-        object_pos = Camera.main.WorldToScreenPoint(target.position);
-        mouse_pos.x = mouse_pos.x - object_pos.x;
-        mouse_pos.y = mouse_pos.y - object_pos.y;
-        angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
 
-        float horizontal = Input.GetAxis("Horizontal") * Time.deltaTime * 6;
-        float vertical = Input.GetAxis("Vertical") * Time.deltaTime * 6;
-/*
-        Debug.Log("mouse position " + mouse_pos);
-        Debug.Log("object position " + object_pos);
-        Debug.Log("Vertical " + vertical + " Test " + Input.GetAxis("Vertical"));
-        Debug.Log("Horizontal " + horizontal + " Test " +Input.GetAxis("Horizontal"));*/
+        /// To convert to world point,, mouse have screen pixel 
+        mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
 
-        target.Translate(horizontal,vertical,0);
+        if (Input.GetButtonDown("Fire1"))
+        {
+            Shoot();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        rigidBody.MovePosition(rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
+
+        Vector2 lookDir = mousePosition - new Vector2(firePoint.position.x, firePoint.position.y);
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+
+        rigidBody.rotation = angle;
+    }
+    void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Rigidbody2D bulletRigidBody = bullet.GetComponent<Rigidbody2D>();
+        bulletRigidBody.AddForce(firePoint.right * bulletForce, ForceMode2D.Impulse);
     }
 }

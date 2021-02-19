@@ -53,7 +53,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         rigidBody.MovePosition(rigidBody.position + movement * movementSpeed * Time.fixedDeltaTime);
-
+      
         Vector2 lookDir = mousePosition - rigidBody.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
 
